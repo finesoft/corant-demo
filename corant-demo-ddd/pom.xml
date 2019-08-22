@@ -8,7 +8,7 @@
   <groupId>corant-demo-ddd</groupId>
   <artifactId>corant-demo-ddd</artifactId>
   <properties>
-        <runner-class>cn.cps.crms.App</runner-class>
+        <runner-class>org.corant.demo.ddd.App</runner-class>
     </properties>
     <build>
        <plugins>
