@@ -3,15 +3,19 @@
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout
-				pattern="%highlight{%d [%t] %-5level %c{1.}: %msg%n%throwable}{FATAL=white, ERROR=red, WARN=blue, INFO=green, DEBUG=green, TRACE=blue}" />
+				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %pid --- [%15.15t] %-40.40c{-3} : %m%n%ex" />
 		</Console>
+		<File name="MyFile" fileName="/root/log/cps-spms-${env:POD_IP:-dflt}.log" immediateFlush="false" append="true"> 
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %pid --- [%15.15t] %-40.40c{-3} : %m%n%ex"/> </File> 
 	</Appenders>
 	<Loggers>
-		<Root level="info">
+		<Root level="error">
 			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyFile"/>
 		</Root>
 		<Logger name="org.corant" level="info" additivity="false">
 			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyFile"/>
 		</Logger>
 	</Loggers>
 </Configuration>
