@@ -13,7 +13,11 @@
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="MyFile"/>
 		</Root>
-		<Logger name="org.corant" level="info" additivity="false">
+		<Logger name="org.corant.config.source" level="error" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyFile"/>
+		</Logger>
+		<Logger name="org.corant.config" level="debug" additivity="false">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="MyFile"/>
 		</Logger>

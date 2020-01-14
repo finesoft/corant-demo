@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(CorantJUnit4ClassRunner.class)
-@RunConfig(configClass = App.class,profile = "dev",randomWebPort = true)
+@RunConfig(configClass = App.class, profile = "dev", randomWebPort = true)
 public class Tester {
 
 	@Test
