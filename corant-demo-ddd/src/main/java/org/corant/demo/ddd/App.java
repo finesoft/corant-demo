@@ -10,12 +10,11 @@ import org.eclipse.microprofile.auth.LoginConfig;
 @ApplicationPath("/ddd")
 public class App extends Application {
 
-	public App() {
-	}
+  public App() {}
 
-	public static void main(String... args) {
-		System.setProperty("corant.config.profile", "me");
-		Corant.run(App.class, args);
-	}
+  public static void main(String... args) {
+    System.setProperty("corant.config.profile", "me");
+    Corant.run(App.class, args);
+  }
 
 }

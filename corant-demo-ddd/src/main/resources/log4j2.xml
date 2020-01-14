@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %pid --- [%16.16t] %-40.40c{-3} : %m%n%ex" />
+		</Console>
+		<File name="MyFile"
+			fileName="d:/importer.log"
+			immediateFlush="false" append="true">
+			<PatternLayout
+				pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %pid --- [%15.15t] %-40.40c{-3} : %m%n%ex" />
+		</File>
+	</Appenders>
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyFile" />
+		</Root>
+		<Logger name="org.corant.suites" level="debug" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyFile" />
+		</Logger>
+		<Logger name="com.arjuna" level="debug" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyFile" />
+		</Logger>
+		<Logger name="org.hibernate" level="debug"
+			additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.jboss.weld" level="info"
+			additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="MyFile" />
+		</Logger>
+	</Loggers>
+</Configuration>
