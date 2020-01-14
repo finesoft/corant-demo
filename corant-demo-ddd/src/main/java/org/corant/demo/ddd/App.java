@@ -13,10 +13,8 @@ public class App extends Application {
 	public App() {
 	}
 
-	public static void main(String... args) throws Exception {
-		System.setProperty("corant.config.profile", "dev");
-//		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
-//		System.setProperty("log4j.configurationFile", "META-INF/log4j2.xml");
+	public static void main(String... args) {
+		System.setProperty("corant.config.profile", "me");
 		Corant.run(App.class, args);
 	}
 
