@@ -3,11 +3,20 @@ package org.corant.demo.ddd;
 import static org.corant.shared.util.CollectionUtils.listOf;
 import static org.corant.shared.util.MapUtils.mapOf;
 import static org.corant.suites.cdi.Instances.resolve;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.transaction.Transactional;
+import org.corant.demo.ddd.application.OrderQueryService;
 import org.corant.demo.ddd.application.OrderService;
 import org.corant.demo.ddd.application.ProductService;
 import org.corant.demo.ddd.application.UserService;
 import org.corant.demo.ddd.ubiquity.DynamicAttributes.AttributeType;
+import org.corant.suites.json.JsonUtils;
+import org.corant.suites.query.sql.cdi.SqlNamedQueryServiceManager;
 import org.junit.Test;
 
 public class OrderServiceTest extends AbstractTest {
@@ -50,6 +59,41 @@ public class OrderServiceTest extends AbstractTest {
   @Test
   public void pay() {
     resolve(OrderService.class).pay(mapOf("id", "535302305260503040", "remark", "payed!"));
+  }
+
+  @Test
+  public void select() {
+    List<Map<String, Object>> list = resolve(SqlNamedQueryServiceManager.class).get("ro")
+        .select("OrderQueryService.select", null);
+    System.out.println(JsonUtils.toString(list, true));
+  }
+
+  @Test
+  public void selectDeclarative() {
+    OrderQueryService s1 = resolve(OrderQueryService.class);
+    OrderQueryService s2 = resolve(OrderQueryService.class);
+    Map<OrderQueryService, OrderQueryService> map = new HashMap<>();
+    map.put(s1, s2);
+    map.put(s2, s1);
+    System.out.println(s1.equals(s2));
+    System.out.println(s1.hashCode() + "\n" + s2.hashCode());
+    System.out.println(s1.toString() + "\n" + s2.toString());
+    List<Map<String, Object>> list = map.get(s1).select(null);
+    System.out.println(JsonUtils.toString(list, true));
+    List<OrderQueryService> sl = new ArrayList<>();
+    sl.add(s1);
+    sl.add(s2);
+    for (OrderQueryService s : sl) {
+      System.out.println(JsonUtils.toString(s.select(null), true));
+    }
+    Set<OrderQueryService> ss = new HashSet<>(sl);
+    System.out.println(ss.contains(s2));
+    System.out.println(ss.contains(s1));
+    for (OrderQueryService s : ss) {
+      System.out.println(JsonUtils.toString(s.select(null), true));
+    }
+    System.out.println(JsonUtils.toString(s1.select(null), true));
+    System.out.println(JsonUtils.toString(s1.bingo(), true));
   }
 
   @Test

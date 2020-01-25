@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query-mappings xmlns="http://corant.org/schema/nqms"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://corant.org/schema/nqms http://corant.org/schema/nqms/nqms_1_0.xsd">
+	<query name="OrderQueryService.get">
+		<script>
+			<![CDATA[
+				SELECT 
+					id,
+				    vn,
+				    amount,
+				    buyerId,
+				    buyerName,
+				    confirmedRemark,
+				    createdTime,
+				    deliveriedRemark,
+				    deliveryInfo,
+				    lastModifiedTime,
+				    number,
+				    payedRemark,
+				    paymentInfo,
+				    remark,
+				    sellerId,
+				    sellerName,
+				    status
+				FROM 
+					t_order
+				WHERE	
+				    1<>1
+				    <#if id??>
+					    OR t.id = ${SP(id)}		
+					</#if>		
+			]]>
+		</script>
+		<fetch-query reference-query="OrderQueryService.getItems"
+			inject-property-name="items">
+			<parameter name="orderId" source="R" source-name="id" />
+		</fetch-query>
+	</query>
+
+	<query name="OrderQueryService.select">
+		<script>
+			<![CDATA[
+				SELECT 
+					id,
+				    vn,
+				    amount,
+				    buyerId,
+				    buyerName,
+				    confirmedRemark,
+				    createdTime,
+				    deliveriedRemark,
+				    deliveryInfo,
+				    lastModifiedTime,
+				    number,
+				    payedRemark,
+				    paymentInfo,
+				    remark,
+				    sellerId,
+				    sellerName,
+				    status
+				FROM 
+					t_order
+				WHERE	
+				    1=1
+				    <#if id??>
+					    AND id = ${SP(id)}		
+					</#if>
+					<#if sellerId??>
+					    AND sellerId = ${SP(sellerId)}		
+					</#if>		
+					<#if buyerId??>
+					    AND buyerId = ${SP(buyerId)}		
+					</#if>	
+					<#if status??>
+					    AND status = ${SP(status)}		
+					</#if>													
+			]]>
+		</script>
+		<fetch-query reference-query="OrderQueryService.getItems"
+			eager-inject="false" max-fetch-size="0">
+			<parameter name="orderId" source="R" source-name="id" />
+			<injection-script>
+                <![CDATA[
+				(function(r,frs){ 
+					var ArrayList = Java.type('java.util.ArrayList');
+					var items = new ArrayList();
+					for each (var fr in frs){
+						if(r.get("id").equals(fr.get("orderId"))){
+							items.add(fr);
+						}
+					}
+					r.put("items",items);
+				})(r,frs);          
+				]]>
+			</injection-script>
+		</fetch-query>
+	</query>
+
+	<query name="OrderQueryService.getItems">
+		<script>
+			<![CDATA[
+				SELECT id,
+				    commodityId,
+				    commodityName,
+				    commodityNumber,
+				    commodityPrice,
+				    qty,
+				    remark,
+				    orderId
+				FROM 
+					t_order_items
+				WHERE
+				    1<>1
+				    <#if orderId??>
+					    OR orderId IN (${SP(orderId)})		
+					</#if>	
+			]]>
+		</script>
+	</query>
+</query-mappings>
