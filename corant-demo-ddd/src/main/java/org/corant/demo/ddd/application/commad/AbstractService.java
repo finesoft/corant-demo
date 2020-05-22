@@ -1,4 +1,4 @@
-package org.corant.demo.ddd.application;
+package org.corant.demo.ddd.application.commad;
 
 import java.math.BigDecimal;
 import javax.enterprise.context.ApplicationScoped;

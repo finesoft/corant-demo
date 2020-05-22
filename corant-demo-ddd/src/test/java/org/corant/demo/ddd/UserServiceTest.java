@@ -2,7 +2,7 @@ package org.corant.demo.ddd;
 
 import static org.corant.shared.util.MapUtils.mapOf;
 import static org.corant.suites.cdi.Instances.resolve;
-import org.corant.demo.ddd.application.UserService;
+import org.corant.demo.ddd.application.commad.UserService;
 import org.junit.Test;
 
 public class UserServiceTest extends AbstractTest {

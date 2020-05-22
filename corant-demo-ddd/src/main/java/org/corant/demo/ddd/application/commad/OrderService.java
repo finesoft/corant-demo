@@ -1,4 +1,4 @@
-package org.corant.demo.ddd.application;
+package org.corant.demo.ddd.application.commad;
 
 import static org.corant.shared.util.MapUtils.getMapBigDecimal;
 import static org.corant.shared.util.MapUtils.getMapBoolean;

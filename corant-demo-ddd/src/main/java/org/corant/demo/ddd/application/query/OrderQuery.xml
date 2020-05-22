@@ -28,7 +28,7 @@
 				WHERE	
 				    1<>1
 				    <#if id??>
-					    OR t.id = ${SP(id)}		
+					    OR id = ${TM(id)}		
 					</#if>		
 			]]>
 		</script>
@@ -64,16 +64,16 @@
 				WHERE	
 				    1=1
 				    <#if id??>
-					    AND id = ${SP(id)}		
+					    AND id = ${TM(id)}		
 					</#if>
 					<#if sellerId??>
-					    AND sellerId = ${SP(sellerId)}		
+					    AND sellerId = ${TM(sellerId)}		
 					</#if>		
 					<#if buyerId??>
-					    AND buyerId = ${SP(buyerId)}		
+					    AND buyerId = ${TM(buyerId)}		
 					</#if>	
 					<#if status??>
-					    AND status = ${SP(status)}		
+					    AND status = ${TM(status)}		
 					</#if>													
 			]]>
 		</script>
@@ -82,16 +82,18 @@
 			<parameter name="orderId" source="R" source-name="id" />
 			<injection-script>
                 <![CDATA[
-				(function(r,frs){ 
-					var ArrayList = Java.type('java.util.ArrayList');
-					var items = new ArrayList();
-					for each (var fr in frs){
-						if(r.get("id").equals(fr.get("orderId"))){
-							items.add(fr);
+				(function(rs,frs){ 
+					for each(var r in rs){
+						var ArrayList = Java.type('java.util.ArrayList');
+						var items = new ArrayList();
+						for each (var fr in frs){
+							if(r.get("id").equals(fr.get("orderId"))){
+								items.add(fr);
+							}
 						}
+						r.put("items",items);
 					}
-					r.put("items",items);
-				})(r,frs);          
+				})(rs,frs);          
 				]]>
 			</injection-script>
 		</fetch-query>
@@ -113,7 +115,7 @@
 				WHERE
 				    1<>1
 				    <#if orderId??>
-					    OR orderId IN (${SP(orderId)})		
+					    OR orderId IN (${TM(orderId)})		
 					</#if>	
 			]]>
 		</script>

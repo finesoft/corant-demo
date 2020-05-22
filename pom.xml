@@ -10,7 +10,7 @@
 	<properties>
 		<runner-class />
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.corant>1.2.0-SNAPSHOT</version.corant>
+		<version.corant>1.2.1-SNAPSHOT</version.corant>
 		<version.build-helper-maven-plugin>3.0.0</version.build-helper-maven-plugin>
 		<version.exec-maven-plugin>1.6.0</version.exec-maven-plugin>
 	</properties>
@@ -19,7 +19,7 @@
 			<dependency>
 				<groupId>org.corant</groupId>
 				<artifactId>corant-boms</artifactId>
-				<version>1.2.0-SNAPSHOT</version>
+				<version>1.2.1-SNAPSHOT</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

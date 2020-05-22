@@ -43,7 +43,7 @@ public class ProductAttribute implements Serializable {
   public ProductAttribute(String name, AttributeType type, Object value) {
     this.name = name;
     this.type = defaultObject(type, AttributeType.STRING);
-    if (this.type == AttributeType.NUMBERIC) {
+    if (this.type == AttributeType.NUMERIC) {
       numericValue = toBigDecimal(value);
     } else if (this.type == AttributeType.BOOLEAN) {
       booleanValue = toBoolean(value);
@@ -87,7 +87,7 @@ public class ProductAttribute implements Serializable {
   }
 
   public <T> T getValue() {
-    if (type == AttributeType.NUMBERIC) {
+    if (type == AttributeType.NUMERIC) {
       return forceCast(numericValue);
     } else if (type == AttributeType.BOOLEAN) {
       return forceCast(booleanValue);

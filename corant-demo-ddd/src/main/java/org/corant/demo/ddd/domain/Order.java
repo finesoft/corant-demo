@@ -42,6 +42,7 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
   @AttributeOverride(column = @Column(name = "sellerName", length = 320), name = "name")
   private Participator seller;
 
+  @Embedded
   @AttributeOverride(column = @Column(name = "buyerId", updatable = false), name = "id")
   @AttributeOverride(column = @Column(name = "buyerName", length = 320), name = "name")
   private Participator buyer;

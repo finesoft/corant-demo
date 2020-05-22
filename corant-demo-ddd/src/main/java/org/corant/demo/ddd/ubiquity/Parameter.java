@@ -6,6 +6,7 @@ import org.corant.demo.ddd.ubiquity.DynamicAttributes.DynamicAttributeMap;
 import org.corant.suites.ddd.model.Value;
 
 public class Parameter implements Value {
+
   static final Parameter EMPTY_INST = new Parameter();
 
   private static final long serialVersionUID = -3517537674124343136L;

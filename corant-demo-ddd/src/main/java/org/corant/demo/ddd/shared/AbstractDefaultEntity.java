@@ -10,15 +10,14 @@ import org.corant.suites.ddd.model.AbstractEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 @MappedSuperclass
-public abstract class AbstractDefaultEntity
-extends AbstractEntity {
+public abstract class AbstractDefaultEntity extends AbstractEntity {
 
   private static final long serialVersionUID = -4395445831789674052L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "snowflake")
   @GenericGenerator(name = "snowflake",
-  strategy = "org.corant.suites.jpa.hibernate.HibernateSnowflakeIdGenerator")
+      strategy = "org.corant.suites.jpa.hibernate.HibernateSnowflakeIdGenerator")
   private Long id;
 
   public AbstractDefaultEntity() {}
@@ -32,4 +31,3 @@ extends AbstractEntity {
     this.id = requireNotNull(id, GlobalMessageCodes.ERR_PARAM);
   }
 }
-
