@@ -1,16 +1,12 @@
 package org.corant.demo.ddd.application.commad;
 
-import static org.corant.shared.util.MapUtils.getMapBoolean;
-import static org.corant.shared.util.MapUtils.getMapEnum;
-import static org.corant.shared.util.MapUtils.getMapList;
-import static org.corant.shared.util.MapUtils.getMapLong;
-import static org.corant.shared.util.MapUtils.getMapObject;
-import static org.corant.shared.util.MapUtils.getMapString;
-import java.util.Map;
+import static org.corant.shared.util.Assertions.shouldNotNull;
+import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import org.corant.demo.ddd.application.parameter.DeleteProduct;
+import org.corant.demo.ddd.application.parameter.MaintainProduct;
 import org.corant.demo.ddd.domain.Product;
-import org.corant.demo.ddd.ubiquity.DynamicAttributes.AttributeType;
 import org.corant.demo.ddd.ubiquity.Parameter;
 import org.corant.shared.util.ObjectUtils.Triple;
 
@@ -18,44 +14,27 @@ import org.corant.shared.util.ObjectUtils.Triple;
 @Transactional
 public class ProductService extends AbstractService {
 
-  public Long create(Map<String, Object> cmd) {
-    return new Product(getMapString(cmd, "number"), getMapString(cmd, "name"),
-        getMapString(cmd, "remark"),
-        getMapList(cmd, "attributes",
-            a -> Triple.of(getMapString((Map<?, ?>) a, "name"),
-                getMapEnum((Map<?, ?>) a, "type", AttributeType.class),
-                getMapObject((Map<?, ?>) a, "value"))))
-                    .preserve(
-                        getMapBoolean(cmd, "issueMessage")
-                            ? Parameter.empty().withAttribute("issueMessage", true)
-                            : Parameter.empty(),
-                        (p, u) -> System.out
-                            .println("Create product " + u.getNumber() + "\t" + u.getId()))
-                    .getId();
+  public Long create(MaintainProduct cmd) {
+    Parameter preserveParam = Parameter.empty();
+    if (cmd.isNotifyCreated()) {
+      preserveParam = preserveParam.withAttribute("notifyCreated", true);
+    }
+    return new Product(cmd.getNumber(), cmd.getName(), cmd.getRemark(),
+        cmd.getAttributes().stream().map(it -> Triple.of(it.getName(), it.getType(), it.getValue()))
+            .collect(Collectors.toList())).preserve(preserveParam, null).getId();
   }
 
-  public void delete(Map<String, Object> cmd) {
-    repo.get(Product.class, getMapLong(cmd, "id")).destroy(Parameter.empty(),
-        (p, u) -> System.out.println("Delete product " + u.getName()));
+  public void delete(DeleteProduct cmd) {
+    shouldNotNull(repo.get(Product.class, cmd.getId()), IllegalArgumentException::new)
+        .destroy(Parameter.empty(), null);
   }
 
-  public void update(Map<String, Object> cmd) {
-    Product product = repo.get(Product.class, getMapLong(cmd, "id"));
-    if (cmd.containsKey("number")) {
-      product.changeNumber(getMapString(cmd, "number"));
-    }
-    if (cmd.containsKey("name")) {
-      product.changeName(getMapString(cmd, "name"));
-    }
-    if (cmd.containsKey("remark")) {
-      product.changeRemark(getMapString(cmd, "remark"));
-    }
-    if (cmd.containsKey("attributes")) {
-      product.changeAttributes(getMapList(cmd, "attributes",
-          a -> Triple.of(getMapString((Map<?, ?>) a, "name"),
-              getMapEnum((Map<?, ?>) a, "type", AttributeType.class),
-              getMapObject((Map<?, ?>) a, "value"))));
-    }
+  public void update(MaintainProduct cmd) {
+    shouldNotNull(repo.get(Product.class, cmd.getId()), IllegalArgumentException::new)
+        .changeName(cmd.getName()).changeNumber(cmd.getRemark()).changeRemark(cmd.getRemark())
+        .changeAttributes(cmd.getAttributes().stream()
+            .map(it -> Triple.of(it.getName(), it.getType(), it.getValue()))
+            .collect(Collectors.toList()));
   }
 
 }

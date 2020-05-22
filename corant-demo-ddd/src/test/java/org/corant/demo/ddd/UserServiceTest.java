@@ -1,30 +1,28 @@
 package org.corant.demo.ddd;
 
+import static io.restassured.RestAssured.given;
 import static org.corant.shared.util.MapUtils.mapOf;
-import static org.corant.suites.cdi.Instances.resolve;
-import org.corant.demo.ddd.application.commad.UserService;
+import javax.ws.rs.core.MediaType;
 import org.junit.Test;
 
 public class UserServiceTest extends AbstractTest {
 
   @Test
   public void create() {
-    resolve(UserService.class).create(mapOf("name", "bingo"));
+    given().body(mapOf("name", "bingo")).contentType(MediaType.APPLICATION_JSON).when()
+        .post("ddd/users/save/").prettyPrint();
   }
 
   @Test
   public void createAndSendMessage() {
-    resolve(UserService.class).create(mapOf("name", "bingo-issueMessage1", "issueMessage", true));
+    given().body(mapOf("name", "bingo", "notifyCreated", true))
+        .contentType(MediaType.APPLICATION_JSON).when().post("ddd/users/save/").prettyPrint();
+
   }
 
   @Test
   public void delete() {
-    resolve(UserService.class).delete(mapOf("id", "535278628414423040"));
+    given().body(mapOf("id", "535301785166807040")).contentType(MediaType.APPLICATION_JSON).when()
+        .post("ddd/users/delete/").prettyPrint();
   }
-
-  @Test
-  public void update() {
-    resolve(UserService.class).update(mapOf("id", "535285121197015040", "name", "bingo"));
-  }
-
 }

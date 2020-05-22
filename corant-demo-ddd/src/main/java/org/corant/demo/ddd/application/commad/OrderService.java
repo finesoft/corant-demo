@@ -1,77 +1,60 @@
 package org.corant.demo.ddd.application.commad;
 
-import static org.corant.shared.util.MapUtils.getMapBigDecimal;
-import static org.corant.shared.util.MapUtils.getMapBoolean;
-import static org.corant.shared.util.MapUtils.getMapInteger;
-import static org.corant.shared.util.MapUtils.getMapLong;
-import static org.corant.shared.util.MapUtils.getMapMaps;
-import static org.corant.shared.util.MapUtils.getMapString;
-import java.math.BigDecimal;
-import java.util.Map;
+import static org.corant.shared.util.Assertions.shouldNotNull;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import org.corant.demo.ddd.application.parameter.ConfirmOrder;
+import org.corant.demo.ddd.application.parameter.DeleteOrder;
+import org.corant.demo.ddd.application.parameter.DeliveryOrder;
+import org.corant.demo.ddd.application.parameter.MaintainOrder;
+import org.corant.demo.ddd.application.parameter.PayOrder;
 import org.corant.demo.ddd.domain.Order;
 import org.corant.demo.ddd.ubiquity.Parameter;
-import org.corant.demo.ddd.ubiquity.Participator;
+import org.corant.shared.util.ObjectUtils;
 
 @ApplicationScoped
 @Transactional
 public class OrderService extends AbstractService {
 
-  public void confirm(Map<String, Object> cmd) {
-    repo.get(Order.class, getMapLong(cmd, "id")).confirm(getMapString(cmd, "remark"));
+  public void confirm(ConfirmOrder cmd) {
+    shouldNotNull(repo.get(Order.class, cmd.getId()), IllegalArgumentException::new)
+        .confirm(cmd.getRemark());
   }
 
-  public Long create(Map<String, Object> cmd) {
-    Participator seller = getParticipator(getMapLong(cmd, "sellerId"));
-    Participator buyer = getParticipator(getMapLong(cmd, "buyerId"));
-    Order order = new Order(seller, buyer, getMapString(cmd, "deliveryInfo"),
-        getMapString(cmd, "paymentInfo"), getMapString(cmd, "remark"));
-    getMapMaps(cmd, "items").forEach(it -> {
-      order.addItem(
-          getCommodity(getMapLong(it, "commodityId"),
-              getMapBigDecimal(it, "price", BigDecimal.ONE)),
-          getMapInteger(it, "qty"), getMapString(cmd, "remark"));
-    });
-    return order.preserve(
-        getMapBoolean(cmd, "issueMessage") ? Parameter.empty().withAttribute("issueMessage", true)
-            : Parameter.empty(),
-        (p, u) -> System.out.println("Create order " + u.getNumber() + "\t" + u.getId())).getId();
-  }
-
-  public void delete(Map<String, Object> cmd) {
-    repo.get(Order.class, getMapLong(cmd, "id")).destroy(Parameter.empty(),
-        (p, u) -> System.out.println("Delete order " + u.getNumber()));
-  }
-
-  public void delivery(Map<String, Object> cmd) {
-    repo.get(Order.class, getMapLong(cmd, "id")).delivery(getMapString(cmd, "remark"));
-  }
-
-  public void pay(Map<String, Object> cmd) {
-    repo.get(Order.class, getMapLong(cmd, "id")).pay(getMapString(cmd, "remark"));
-  }
-
-  public void update(Map<String, Object> cmd) {
-    Order order = repo.get(Order.class, getMapLong(cmd, "id"));
-    if (cmd.containsKey("deliveryInfo")) {
-      order.changeDeliveryInfo(getMapString(cmd, "deliveryInfo"));
+  public Long create(MaintainOrder cmd) {
+    Order order = new Order(getParticipator(cmd.getSellerId()), getParticipator(cmd.getBuyerId()),
+        cmd.getDeliveryInfo(), cmd.getPaymentInfo(), cmd.getRemark());
+    cmd.getItems().forEach(it -> order.addItem(getCommodity(it.getCommodityId(), it.getPrice()),
+        it.getQty(), it.getRemark()));
+    Parameter preserveParam = Parameter.empty();
+    if (cmd.isNotifyCreated()) {
+      preserveParam = preserveParam.withAttribute("notifyCreated", true);
     }
-    if (cmd.containsKey("paymentInfo")) {
-      order.changePaymentInfo(getMapString(cmd, "paymentInfo"));
-    }
-    if (cmd.containsKey("remark")) {
-      order.changeRemark(getMapString(cmd, "remark"));
-    }
-    if (cmd.containsKey("items")) {
-      order.removeItemIf(t -> true);
-      getMapMaps(cmd, "items").forEach(it -> {
-        order.addItem(
-            getCommodity(getMapLong(it, "commodityId"),
-                getMapBigDecimal(it, "price", BigDecimal.ONE)),
-            getMapInteger(it, "qty"), getMapString(cmd, "remark"));
-      });
-    }
+    return order.preserve(preserveParam, null).getId();
+  }
+
+  public void delete(DeleteOrder cmd) {
+    shouldNotNull(repo.get(Order.class, cmd.getId()), IllegalArgumentException::new)
+        .destroy(Parameter.empty(), null);
+  }
+
+  public void delivery(DeliveryOrder cmd) {
+    shouldNotNull(repo.get(Order.class, cmd.getId()), IllegalArgumentException::new)
+        .delivery(cmd.getRemark());
+  }
+
+  public void pay(PayOrder cmd) {
+    shouldNotNull(repo.get(Order.class, cmd.getId()), IllegalArgumentException::new)
+        .pay(cmd.getRemark());
+  }
+
+  public void update(MaintainOrder cmd) {
+    Order order = shouldNotNull(repo.get(Order.class, cmd.getId()), IllegalArgumentException::new)
+        .changeDeliveryInfo(cmd.getDeliveryInfo()).changePaymentInfo(cmd.getPaymentInfo())
+        .changeRemark(cmd.getRemark());
+    order.removeItemIf(ObjectUtils.emptyPredicate(true));
+    cmd.getItems().forEach(it -> order.addItem(getCommodity(it.getCommodityId(), it.getPrice()),
+        it.getQty(), it.getRemark()));
   }
 
 }

@@ -125,8 +125,9 @@ public class Product extends AbstractGenericAggregate<Parameter, Product> {
 
   @Override
   public Product preserve(Parameter param, PreservingHandler<Parameter, Product> handler) {
+    final boolean isNew = isPhantom();
     super.preserve(param, handler);
-    if (param.getAttributes().getBoolean("issueMessage")) {
+    if (isNew && param.getAttributes().getBoolean("notifyCreated")) {
       raise(new ProductCreatedMessage(this));
     }
     return this;

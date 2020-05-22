@@ -220,8 +220,9 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
 
   @Override
   public Order preserve(Parameter param, PreservingHandler<Parameter, Order> handler) {
+    final boolean isNew = isPhantom();
     super.preserve(param, handler);
-    if (param.getAttributes().getBoolean("issueMessage")) {
+    if (isNew && param.getAttributes().getBoolean("notifyCreated")) {
       raise(new OrderCreatedMessage(this));
     }
     return this;

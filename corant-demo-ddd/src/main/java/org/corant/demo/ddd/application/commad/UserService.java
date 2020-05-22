@@ -1,11 +1,10 @@
 package org.corant.demo.ddd.application.commad;
 
-import static org.corant.shared.util.MapUtils.getMapBoolean;
-import static org.corant.shared.util.MapUtils.getMapLong;
-import static org.corant.shared.util.MapUtils.getMapString;
-import java.util.Map;
+import static org.corant.shared.util.Assertions.shouldNotNull;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
+import org.corant.demo.ddd.application.parameter.DeleteUser;
+import org.corant.demo.ddd.application.parameter.MaintainUser;
 import org.corant.demo.ddd.domain.User;
 import org.corant.demo.ddd.ubiquity.Parameter;
 
@@ -13,20 +12,21 @@ import org.corant.demo.ddd.ubiquity.Parameter;
 @Transactional
 public class UserService extends AbstractService {
 
-  public Long create(Map<String, Object> cmd) {
-    return new User(getMapString(cmd, "name")).preserve(
-        getMapBoolean(cmd, "issueMessage") ? Parameter.empty().withAttribute("issueMessage", true)
-            : Parameter.empty(),
-        (p, u) -> System.out.println("Create user " + u.getName() + "\t" + u.getId())).getId();
+  public Long create(MaintainUser cmd) {
+    return new User(cmd.getName())
+        .preserve(cmd.isNotifyCreated() ? Parameter.empty().withAttribute("notifyCreated", true)
+            : Parameter.empty(), null)
+        .getId();
   }
 
-  public void delete(Map<String, Object> cmd) {
-    repo.get(User.class, getMapLong(cmd, "id")).destroy(Parameter.empty(),
-        (p, u) -> System.out.println("Delete user " + u.getName()));
+  public void delete(DeleteUser cmd) {
+    shouldNotNull(repo.get(User.class, cmd.getId()), IllegalArgumentException::new)
+        .destroy(Parameter.empty(), null);
   }
 
-  public void update(Map<String, Object> cmd) {
-    repo.get(User.class, getMapLong(cmd, "id")).changeName(getMapString(cmd, "name"));
+  public void update(MaintainUser cmd) {
+    shouldNotNull(repo.get(User.class, cmd.getId()), IllegalArgumentException::new)
+        .changeName(cmd.getName());
   }
 
 }

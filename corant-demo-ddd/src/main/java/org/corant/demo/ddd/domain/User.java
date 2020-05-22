@@ -53,8 +53,9 @@ public class User extends AbstractGenericAggregate<Parameter, User> {
 
   @Override
   public User preserve(Parameter param, PreservingHandler<Parameter, User> handler) {
+    final boolean isNew = isPhantom();
     super.preserve(param, handler);
-    if (param.getAttributes().getBoolean("issueMessage")) {
+    if (isNew && param.getAttributes().getBoolean("notifyCreated")) {
       raise(new UserCreatedMessage(this));
     }
     return this;
