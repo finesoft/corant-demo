@@ -9,20 +9,20 @@ public class UserServiceTest extends AbstractTest {
 
   @Test
   public void create() {
-    given().body(mapOf("name", "bingo")).contentType(MediaType.APPLICATION_JSON).when()
+    given().body(mapOf("name", "xxx")).contentType(MediaType.APPLICATION_JSON).when()
         .post("ddd/users/save/").prettyPrint();
   }
 
   @Test
   public void createAndSendMessage() {
-    given().body(mapOf("name", "bingo", "notifyCreated", true))
+    given().body(mapOf("name", "jimmy", "notifyCreated", true))
         .contentType(MediaType.APPLICATION_JSON).when().post("ddd/users/save/").prettyPrint();
 
   }
 
   @Test
   public void delete() {
-    given().body(mapOf("id", "535301785166807040")).contentType(MediaType.APPLICATION_JSON).when()
+    given().body(mapOf("id", "582008048755671040")).contentType(MediaType.APPLICATION_JSON).when()
         .post("ddd/users/delete/").prettyPrint();
   }
 }
