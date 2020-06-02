@@ -22,8 +22,8 @@ import org.corant.demo.ddd.shared.AbstractGenericAggregate;
 import org.corant.demo.ddd.ubiquity.Commodity;
 import org.corant.demo.ddd.ubiquity.DynamicAttributes.AttributeType;
 import org.corant.demo.ddd.ubiquity.Parameter;
+import org.corant.shared.ubiquity.Triple;
 import org.corant.shared.util.ObjectUtils;
-import org.corant.shared.util.ObjectUtils.Triple;
 
 @Entity
 @Table(name = "t_product")
