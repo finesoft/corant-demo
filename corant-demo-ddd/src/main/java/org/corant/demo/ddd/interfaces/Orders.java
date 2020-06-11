@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.corant.demo.ddd.application.commad.OrderService;
+import org.corant.demo.ddd.application.command.OrderService;
 import org.corant.demo.ddd.application.parameter.ConfirmOrder;
 import org.corant.demo.ddd.application.parameter.DeleteOrder;
 import org.corant.demo.ddd.application.parameter.DeliveryOrder;

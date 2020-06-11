@@ -2,7 +2,7 @@ package org.corant.demo.ddd;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
-import org.corant.Corant;
+import org.corant.kernel.boot.DirectRunner;
 
 @ApplicationPath("/ddd")
 public class App extends Application {
@@ -11,7 +11,7 @@ public class App extends Application {
 
   public static void main(String... args) {
     System.setProperty("corant.config.profile", "me");
-    Corant.run(App.class, args);
+    DirectRunner.main(args);
   }
 
 }

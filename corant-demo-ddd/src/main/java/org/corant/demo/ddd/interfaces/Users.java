@@ -8,7 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.corant.demo.ddd.application.commad.UserService;
+import org.corant.demo.ddd.application.command.UserService;
 import org.corant.demo.ddd.application.parameter.DeleteUser;
 import org.corant.demo.ddd.application.parameter.MaintainUser;
 import org.corant.suites.jaxrs.shared.AbstractJaxrsResource;

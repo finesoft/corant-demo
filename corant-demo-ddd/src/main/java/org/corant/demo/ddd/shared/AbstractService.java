@@ -1,4 +1,4 @@
-package org.corant.demo.ddd.application.commad;
+package org.corant.demo.ddd.shared;
 
 import java.math.BigDecimal;
 import javax.enterprise.context.ApplicationScoped;
@@ -13,16 +13,16 @@ import org.corant.suites.ddd.repository.JPARepository;
 public abstract class AbstractService {
 
   @Inject
-  JPARepository repo;
+  protected JPARepository repo;
 
-  Commodity getCommodity(Long id, BigDecimal price) {
+  protected Commodity getCommodity(Long id, BigDecimal price) {
     if (id != null) {
       return repo.get(Product.class, id).asCommodity(price);
     }
     return null;
   }
 
-  Participator getParticipator(Long id) {
+  protected Participator getParticipator(Long id) {
     if (id != null) {
       return repo.get(User.class, id).asParticipator();
     }

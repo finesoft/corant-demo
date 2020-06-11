@@ -1,4 +1,4 @@
-package org.corant.demo.ddd.application.commad;
+package org.corant.demo.ddd.application.command;
 
 import static org.corant.shared.util.Assertions.shouldNotNull;
 import javax.enterprise.context.ApplicationScoped;
@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.corant.demo.ddd.application.parameter.DeleteUser;
 import org.corant.demo.ddd.application.parameter.MaintainUser;
 import org.corant.demo.ddd.domain.User;
+import org.corant.demo.ddd.shared.AbstractService;
 import org.corant.demo.ddd.ubiquity.Parameter;
 
 @ApplicationScoped

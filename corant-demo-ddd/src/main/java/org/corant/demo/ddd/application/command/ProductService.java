@@ -1,4 +1,4 @@
-package org.corant.demo.ddd.application.commad;
+package org.corant.demo.ddd.application.command;
 
 import static org.corant.shared.util.Assertions.shouldNotNull;
 import java.util.stream.Collectors;
@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.corant.demo.ddd.application.parameter.DeleteProduct;
 import org.corant.demo.ddd.application.parameter.MaintainProduct;
 import org.corant.demo.ddd.domain.Product;
+import org.corant.demo.ddd.shared.AbstractService;
 import org.corant.demo.ddd.ubiquity.Parameter;
 import org.corant.shared.ubiquity.Triple;
 

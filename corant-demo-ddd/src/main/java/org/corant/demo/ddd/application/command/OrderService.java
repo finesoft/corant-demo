@@ -1,4 +1,4 @@
-package org.corant.demo.ddd.application.commad;
+package org.corant.demo.ddd.application.command;
 
 import static org.corant.shared.util.Assertions.shouldNotNull;
 import javax.enterprise.context.ApplicationScoped;
@@ -9,6 +9,7 @@ import org.corant.demo.ddd.application.parameter.DeliveryOrder;
 import org.corant.demo.ddd.application.parameter.MaintainOrder;
 import org.corant.demo.ddd.application.parameter.PayOrder;
 import org.corant.demo.ddd.domain.Order;
+import org.corant.demo.ddd.shared.AbstractService;
 import org.corant.demo.ddd.ubiquity.Parameter;
 import org.corant.shared.util.ObjectUtils;
 
