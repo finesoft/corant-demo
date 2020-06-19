@@ -1,6 +1,6 @@
 package org.corant.demo.ddd.domain;
 
-import static org.corant.shared.util.ObjectUtils.isEquals;
+import static org.corant.shared.util.Objects.areEqual;
 import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,7 +40,7 @@ public class User extends AbstractGenericAggregate<Parameter, User> {
 
   public User changeName(String name) {
     String oldName = getName();
-    if (!isEquals(oldName, name)) {
+    if (!areEqual(oldName, name)) {
       this.name = name;
       raise(new UserNameChangedMessage(this, oldName, name));
     }

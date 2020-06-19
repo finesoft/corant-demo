@@ -1,7 +1,7 @@
 package org.corant.demo.ddd.domain.message;
 
+import static org.corant.shared.util.Objects.areEqual;
 import org.corant.demo.ddd.domain.Product;
-import org.corant.shared.util.ObjectUtils;
 import org.corant.suites.ddd.message.AbstractAggregateMessage;
 import org.corant.suites.ddd.message.MergableMessage;
 import org.corant.suites.jms.shared.annotation.MessageSend;
@@ -30,7 +30,7 @@ public class ProductNameChangedMessage extends AbstractAggregateMessage implemen
 
   @Override
   public boolean isValid() {
-    return !ObjectUtils.isEquals(oldName, newName);
+    return !areEqual(oldName, newName);
   }
 
   @Override

@@ -1,7 +1,7 @@
 package org.corant.demo.ddd.domain;
 
 import static org.corant.shared.util.Empties.isNotEmpty;
-import static org.corant.shared.util.ObjectUtils.isEquals;
+import static org.corant.shared.util.Objects.areEqual;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import org.corant.demo.ddd.ubiquity.Commodity;
 import org.corant.demo.ddd.ubiquity.DynamicAttributes.AttributeType;
 import org.corant.demo.ddd.ubiquity.Parameter;
 import org.corant.shared.ubiquity.Triple;
-import org.corant.shared.util.ObjectUtils;
+import org.corant.shared.util.Objects;
 
 @Entity
 @Table(name = "t_product")
@@ -58,7 +58,7 @@ public class Product extends AbstractGenericAggregate<Parameter, Product> {
     this.number = number;
     this.remark = remark;
     if (isNotEmpty(attributes)) {
-      attributes.stream().filter(ObjectUtils::isNotNull).forEach(this::addAttribute);
+      attributes.stream().filter(Objects::isNotNull).forEach(this::addAttribute);
     }
   }
 
@@ -75,14 +75,14 @@ public class Product extends AbstractGenericAggregate<Parameter, Product> {
   public Product changeAttributes(List<Triple<String, AttributeType, Object>> attributes) {
     removeAttribute(a -> true);
     if (isNotEmpty(attributes)) {
-      attributes.stream().filter(ObjectUtils::isNotNull).forEach(this::addAttribute);
+      attributes.stream().filter(Objects::isNotNull).forEach(this::addAttribute);
     }
     return this;
   }
 
   public Product changeName(String name) {
     String oldName = getName();
-    if (!isEquals(oldName, name)) {
+    if (!areEqual(oldName, name)) {
       this.name = name;
       raise(new ProductNameChangedMessage(this, oldName, name));
     }
