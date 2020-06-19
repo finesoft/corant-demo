@@ -1,8 +1,8 @@
 package org.corant.demo.ddd;
 
 import static io.restassured.RestAssured.given;
-import static org.corant.shared.util.CollectionUtils.listOf;
-import static org.corant.shared.util.MapUtils.mapOf;
+import static org.corant.shared.util.Lists.listOf;
+import static org.corant.shared.util.Maps.mapOf;
 import javax.ws.rs.core.MediaType;
 import org.corant.demo.ddd.ubiquity.DynamicAttributes.AttributeType;
 import org.junit.Test;

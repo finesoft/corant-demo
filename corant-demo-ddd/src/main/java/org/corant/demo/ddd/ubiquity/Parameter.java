@@ -1,6 +1,6 @@
 package org.corant.demo.ddd.ubiquity;
 
-import static org.corant.shared.util.MapUtils.mapOf;
+import static org.corant.shared.util.Maps.mapOf;
 import java.util.Map;
 import org.corant.demo.ddd.ubiquity.DynamicAttributes.DynamicAttributeMap;
 import org.corant.suites.ddd.model.Value;

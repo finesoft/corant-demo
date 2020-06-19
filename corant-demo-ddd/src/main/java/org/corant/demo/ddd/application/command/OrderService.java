@@ -11,7 +11,7 @@ import org.corant.demo.ddd.application.parameter.PayOrder;
 import org.corant.demo.ddd.domain.Order;
 import org.corant.demo.ddd.shared.AbstractService;
 import org.corant.demo.ddd.ubiquity.Parameter;
-import org.corant.shared.util.ObjectUtils;
+import org.corant.shared.util.Functions;
 
 @ApplicationScoped
 @Transactional
@@ -53,7 +53,7 @@ public class OrderService extends AbstractService {
     Order order = shouldNotNull(repo.get(Order.class, cmd.getId()), IllegalArgumentException::new)
         .changeDeliveryInfo(cmd.getDeliveryInfo()).changePaymentInfo(cmd.getPaymentInfo())
         .changeRemark(cmd.getRemark());
-    order.removeItemIf(ObjectUtils.emptyPredicate(true));
+    order.removeItemIf(Functions.emptyPredicate(true));
     cmd.getItems().forEach(it -> order.addItem(getCommodity(it.getCommodityId(), it.getPrice()),
         it.getQty(), it.getRemark()));
   }

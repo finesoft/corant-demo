@@ -1,6 +1,6 @@
 package org.corant.demo.ddd.domain;
 
-import static org.corant.shared.util.ConversionUtils.toBigDecimal;
+import static org.corant.shared.util.Conversions.toBigDecimal;
 import static org.corant.suites.bundle.Preconditions.requireTrue;
 import java.math.BigDecimal;
 import java.time.Instant;

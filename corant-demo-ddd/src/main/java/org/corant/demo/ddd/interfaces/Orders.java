@@ -1,6 +1,6 @@
 package org.corant.demo.ddd.interfaces;
 
-import static org.corant.shared.util.MapUtils.mapOf;
+import static org.corant.shared.util.Maps.mapOf;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

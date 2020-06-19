@@ -1,10 +1,10 @@
 package org.corant.demo.ddd.infrastructure;
 
 import static org.corant.shared.util.Assertions.shouldNotNull;
-import static org.corant.shared.util.CollectionUtils.immutableSetOf;
-import static org.corant.shared.util.ConversionUtils.toLong;
+import static org.corant.shared.util.Conversions.toLong;
 import static org.corant.shared.util.ObjectUtils.asString;
 import static org.corant.shared.util.ObjectUtils.defaultObject;
+import static org.corant.shared.util.Sets.immutableSetOf;
 import static org.corant.suites.cdi.Instances.resolve;
 import static org.corant.suites.cdi.Instances.select;
 import java.lang.annotation.Annotation;
@@ -51,7 +51,7 @@ public class IdentifierEntityConverterFactory implements ConverterFactory<Object
     if (value instanceof Long || value.getClass().equals(Long.TYPE)) {
       id = Long.class.cast(value);
     } else if (value instanceof String) {
-      id =  Long.valueOf((String)value);
+      id = Long.valueOf((String) value);
     } else if (value instanceof DefaultAggregateIdentifier) {
       id = toLong(DefaultAggregateIdentifier.class.cast(value).getId());
     }

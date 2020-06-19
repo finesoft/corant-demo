@@ -1,11 +1,11 @@
 package org.corant.demo.ddd.domain;
 
-import static org.corant.shared.util.ConversionUtils.toBigDecimal;
-import static org.corant.shared.util.ConversionUtils.toBoolean;
-import static org.corant.shared.util.ConversionUtils.toInstant;
+import static org.corant.shared.util.Conversions.toBigDecimal;
+import static org.corant.shared.util.Conversions.toBoolean;
+import static org.corant.shared.util.Conversions.toInstant;
 import static org.corant.shared.util.ObjectUtils.defaultObject;
 import static org.corant.shared.util.ObjectUtils.forceCast;
-import static org.corant.shared.util.StringUtils.asDefaultString;
+import static org.corant.shared.util.Strings.asDefaultString;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
