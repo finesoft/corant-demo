@@ -22,7 +22,7 @@ import org.corant.demo.ddd.shared.AbstractGenericAggregate;
 import org.corant.demo.ddd.ubiquity.Commodity;
 import org.corant.demo.ddd.ubiquity.DynamicAttributes.AttributeType;
 import org.corant.demo.ddd.ubiquity.Parameter;
-import org.corant.shared.ubiquity.Triple;
+import org.corant.shared.ubiquity.Tuple.Triple;
 import org.corant.shared.util.Objects;
 
 @Entity

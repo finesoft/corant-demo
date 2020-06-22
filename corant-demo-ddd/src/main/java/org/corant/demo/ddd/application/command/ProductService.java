@@ -9,7 +9,7 @@ import org.corant.demo.ddd.application.parameter.MaintainProduct;
 import org.corant.demo.ddd.domain.Product;
 import org.corant.demo.ddd.shared.AbstractService;
 import org.corant.demo.ddd.ubiquity.Parameter;
-import org.corant.shared.ubiquity.Triple;
+import org.corant.shared.ubiquity.Tuple.Triple;
 
 @ApplicationScoped
 @Transactional

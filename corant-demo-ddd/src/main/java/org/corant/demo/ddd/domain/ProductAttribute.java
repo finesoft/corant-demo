@@ -14,7 +14,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import org.corant.demo.ddd.ubiquity.DynamicAttributes.AttributeType;
-import org.corant.shared.ubiquity.Triple;
+import org.corant.shared.ubiquity.Tuple.Triple;
 
 @Embeddable
 public class ProductAttribute implements Serializable {

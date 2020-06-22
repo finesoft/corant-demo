@@ -58,9 +58,15 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
   @Basic
   private String deliveryInfo;
 
+  @Column
+  private Instant deliveryTime;
+
   @Lob
   @Basic
   private String paymentInfo;
+
+  @Column
+  private Instant payedTime;
 
   @Lob
   @Basic
@@ -69,6 +75,9 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
   @Lob
   @Basic
   private String confirmedRemark;
+
+  @Column
+  private Instant confirmedTime;
 
   @Lob
   @Basic
@@ -142,6 +151,7 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
     requireTrue(status == OrderStatus.UNCONFIRMED, GlobalMessageCodes.ERR_PARAM);
     status = OrderStatus.CONFIRMED;
     confirmedRemark = remark;
+    confirmedTime = Instant.now();
     raise(new OrderStatusChangedMessage(this));
     return this;
   }
@@ -150,6 +160,7 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
     requireTrue(status == OrderStatus.PAYED, GlobalMessageCodes.ERR_PARAM);
     status = OrderStatus.DELIVERIED;
     deliveriedRemark = remark;
+    deliveryTime = Instant.now();
     raise(new OrderStatusChangedMessage(this));
     return this;
   }
@@ -166,6 +177,10 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
     return confirmedRemark;
   }
 
+  public Instant getConfirmedTime() {
+    return confirmedTime;
+  }
+
   public Instant getCreatedTime() {
     return createdTime;
   }
@@ -176,6 +191,10 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
 
   public String getDeliveryInfo() {
     return deliveryInfo;
+  }
+
+  public Instant getDeliveryTime() {
+    return deliveryTime;
   }
 
   public List<OrderItem> getItems() {
@@ -192,6 +211,10 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
 
   public String getPayedRemark() {
     return payedRemark;
+  }
+
+  public Instant getPayedTime() {
+    return payedTime;
   }
 
   public String getPaymentInfo() {
@@ -214,6 +237,7 @@ public class Order extends AbstractGenericAggregate<Parameter, Order> {
     requireTrue(status == OrderStatus.CONFIRMED, GlobalMessageCodes.ERR_PARAM);
     status = OrderStatus.PAYED;
     payedRemark = remark;
+    payedTime = Instant.now();
     raise(new OrderStatusChangedMessage(this));
     return this;
   }
