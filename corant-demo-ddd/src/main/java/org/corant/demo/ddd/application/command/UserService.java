@@ -25,6 +25,10 @@ public class UserService extends AbstractService {
         .destroy(Parameter.empty(), null);
   }
 
+  public String getName(Long id) {
+    return repo.get(User.class, id).getName();
+  }
+
   public void update(MaintainUser cmd) {
     shouldNotNull(repo.get(User.class, cmd.getId()), IllegalArgumentException::new)
         .changeName(cmd.getName());
