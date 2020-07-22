@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.corant.shared.util.Lists.listOf;
 import static org.corant.shared.util.Maps.mapOf;
 import javax.ws.rs.core.MediaType;
+import org.corant.shared.util.Threads;
 import org.junit.Test;
 
 public class OrderServiceTest extends AbstractTest {
@@ -34,6 +35,7 @@ public class OrderServiceTest extends AbstractTest {
             listOf(mapOf("commodityId", "582008417854423040", "price", "20.5", "qty", "1230"),
                 mapOf("commodityId", "582008619181015040", "price", "23.5", "qty", "99"))))
         .contentType(MediaType.APPLICATION_JSON).when().post("ddd/orders/save/").prettyPrint();
+    Threads.tryThreadSleep(1000000l);
   }
 
   @Test
